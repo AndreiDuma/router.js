@@ -8,7 +8,7 @@ Include `routes.js` in your code. A global `Router` object will be visible. Add 
 ```js
 Router.routes(
     /^#\/$/, function() {alert('home');},
-    /^#\/routes\/?$/, function() {alert('routes');}
+    /^#\/routes\/?$/, function() {alert('routes');},
     /^#\/routes\/(\d+)\/?$/, function(id) {alert('route ' + id);},
     /^#\/message\/([a-zA-Z]+)\/?$/, function(msg) {alert(msg+'!');}
 );
