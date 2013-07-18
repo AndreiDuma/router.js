@@ -19,5 +19,5 @@ You may also add redirects:
 Router.redirects(
     /^#\/tracks\/?$/, "#/routes",    // Redirect #/tracks(/) to #/routes
     /^.*$/, "#/"    // Everything not yet matched redirects to #/
-)
+);
 ```
