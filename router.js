@@ -7,7 +7,7 @@ var Router = (function() {
      * Params: alternating RegExp objects and functions are expected
      */
     function setRoutes() {
-        if (arguments.length % 2 != 0) {
+        if (arguments.length % 2 !== 0) {
             throw new Error("Even number of arguments required");
         }
         for (var i=0, len=arguments.length; i<len; i+=2) {
@@ -26,7 +26,7 @@ var Router = (function() {
      * Params: alternating RegExp objects and strings are expected
      */
     function setRedirects() {
-        if (arguments.length % 2 != 0) {
+        if (arguments.length % 2 !== 0) {
             throw new Error("Even number of arguments required");
         }
         for (var i=0, len=arguments.length; i<len; i+=2) {
@@ -52,10 +52,11 @@ var Router = (function() {
      */
     function dispatch(url) {
         /* First check routes */
-        for (var i=0, len=routes.length; i<len; i++) {
-            var exp = routes[i][0],
-                func = routes[i][1],
-                vals = url.match(exp);
+        var i, len, exp, func, vals;
+        for (i=0, len=routes.length; i<len; i++) {
+            exp = routes[i][0];
+            func = routes[i][1];
+            vals = url.match(exp);
                 
             if (vals) {
                 vals.shift();
@@ -64,9 +65,10 @@ var Router = (function() {
             }
         }
         /* Check redirects */
-        for (var i=0, len=redirects.length; i<len; i++) {
-            var exp = redirects[i][0],
-                target = redirects[i][1];
+        var target;
+        for (i=0, len=redirects.length; i<len; i++) {
+            exp = redirects[i][0];
+            target = redirects[i][1];
                 
             if (exp.test(url)) {
                 navigate(target);
@@ -96,5 +98,5 @@ var Router = (function() {
         "routes": setRoutes,
         "redirects": setRedirects,
         "navigate": navigate
-    }
+    };
 })();
