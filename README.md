@@ -10,7 +10,7 @@ Router.routes(
     /^#\/$/, function() {alert('home');},
     /^#\/routes\/?$/, function() {alert('routes');},
     /^#\/routes\/(\d+)\/?$/, function(id) {alert('route ' + id);},
-    /^#\/message\/([a-zA-Z]+)\/?$/, function(msg) {alert(msg+'!');}
+    /^#\/message\/([a-zA-Z]+)\/?$/, function(msg) {alert(msg + '!');}
 );
 ```
 
