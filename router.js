@@ -43,8 +43,14 @@ var Router = (function() {
     /**
      * Navigate to a specific URL (hash, in fact)
      */
-    function navigate(url) {
+    function navigate(url, triggerEvents) {
+        triggerEvents = triggerEvents || (triggerEvents === undefined);
+        if (!triggerEvents) window.removeEventListener("hashchange", urlUpdated);
         window.location.hash = url;
+        /* ugly hack to stack events */
+        if (!triggerEvents) setTimeout(function() {
+            window.addEventListener("hashchange", urlUpdated);
+        }, 0);
     }
 
     /**
@@ -84,10 +90,8 @@ var Router = (function() {
     function urlUpdated() {
         dispatch(window.location.hash);
     }
-    
-    /**
-     * Connect events to the dispatcher
-     */
+
+    /* Initialize */
     window.addEventListener("load", urlUpdated);
     window.addEventListener("hashchange", urlUpdated);
 
