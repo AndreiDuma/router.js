@@ -1,12 +1,14 @@
-var Router = (function() {
-    var routes = [],
+var Router = function() {
+
+    var self = this,
+        routes = [],
         redirects = [];
 
     /**
      * Add a set of routes and their callbacks to the Router
      * Params: alternating RegExp objects and functions are expected
      */
-    function setRoutes() {
+    this.routes = function() {
         if (arguments.length % 2 !== 0) {
             throw new Error("Even number of arguments required");
         }
@@ -19,13 +21,13 @@ var Router = (function() {
             }
             routes.push([arguments[i], arguments[i+1]]);
         }
-    }
+    };
     
     /**
      * Add a set of routes and their redirect targets to the Router
      * Params: alternating RegExp objects and strings are expected
      */
-    function setRedirects() {
+    this.redirects = function() {
         if (arguments.length % 2 !== 0) {
             throw new Error("Even number of arguments required");
         }
@@ -38,12 +40,12 @@ var Router = (function() {
             }
             redirects.push([arguments[i], arguments[i+1]]);
         }
-    }
+    };
 
     /**
      * Navigate to a specific URL (hash, in fact)
      */
-    function navigate(url, triggerEvents) {
+    this.navigate = function(url, triggerEvents) {
         triggerEvents = triggerEvents || (triggerEvents === undefined);
         if (!triggerEvents) window.removeEventListener("hashchange", urlUpdated);
         window.location.hash = url;
@@ -51,7 +53,7 @@ var Router = (function() {
         if (!triggerEvents) setTimeout(function() {
             window.addEventListener("hashchange", urlUpdated);
         }, 0);
-    }
+    };
 
     /**
      * Check if an URL matches routes or redirects
@@ -77,7 +79,7 @@ var Router = (function() {
             target = redirects[i][1];
                 
             if (exp.test(url)) {
-                navigate(target);
+                self.navigate(target);
                 return;
             }
         }
@@ -95,12 +97,4 @@ var Router = (function() {
     window.addEventListener("load", urlUpdated);
     window.addEventListener("hashchange", urlUpdated);
 
-    /**
-     * Return a public API
-     */
-    return {
-        "routes": setRoutes,
-        "redirects": setRedirects,
-        "navigate": navigate
-    };
-})();
+};
